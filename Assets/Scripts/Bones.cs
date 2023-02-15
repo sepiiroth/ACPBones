@@ -32,7 +32,7 @@ public class Bones : MonoBehaviour {
     public GameObject point;
 
     private GameObject gObj;
-    private AvatarBuilder avatarBuilder;
+    //private AvatarBuilder avatarBuilder;
 
     List<Transform> bones = new List<Transform>();
 
@@ -48,9 +48,9 @@ public class Bones : MonoBehaviour {
             Raccord(bodyParts[i]);
         }
 
-        Animator animator = man.GetComponent<Animator>();
+        //Animator animator = man.GetComponent<Animator>();
 
-        HumanBone[] bonesH = new HumanBone[bones.Count];
+        /*HumanBone[] bonesH = new HumanBone[bones.Count];
         for (int i = 0; i < bones.Count; i++)
         {
             HumanBone bone = new HumanBone();
@@ -62,7 +62,7 @@ public class Bones : MonoBehaviour {
         }
 
         Avatar avatar = AvatarBuilder.BuildHumanAvatar(man, bonesH);
-        animator.avatar = avatar;
+        animator.avatar = avatar;*/
 
         //SkinnedMeshRenderer skinnedMesh = man.AddComponent<SkinnedMeshRenderer>();
         //skinnedMesh.rootBone = gObj.transform;

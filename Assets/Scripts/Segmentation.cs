@@ -11,16 +11,12 @@ public class Segmentation : MonoBehaviour {
   private Vector3[] vertices;
   private int[] headIndices;
 
-  // Use this for initialization
   void Start () {
-    // Get the mesh vertices
     Mesh mesh = body.GetComponent<MeshFilter>().mesh;
     vertices = mesh.vertices;
 
-    // Perform the clustering
     headIndices = KMeansClustering(vertices, k, maxIterations, epsilon);
 
-    // Create the head gameObject
     GameObject head = new GameObject("Head");
     Mesh headMesh = CreateHeadMesh(vertices, headIndices);
     head.AddComponent<MeshFilter>().mesh = headMesh;
@@ -29,16 +25,13 @@ public class Segmentation : MonoBehaviour {
   }
 
   int[] KMeansClustering(Vector3[] points, int k, int maxIterations, float epsilon) {
-    // Initialize the cluster centroids
     Vector3[] centroids = new Vector3[k];
     for (int i = 0; i < k; i++) {
       centroids[i] = points[Random.Range(0, points.Length)];
     }
 
-    // Repeat until convergence or maximum iterations reached
     int[] clusterIndices = new int[points.Length];
     for (int iteration = 0; iteration < maxIterations; iteration++) {
-      // Assign each point to the closest centroid
       for (int i = 0; i < points.Length; i++) {
         float minDistance = float.MaxValue;
         int closestCentroid = 0;
@@ -52,7 +45,6 @@ public class Segmentation : MonoBehaviour {
         clusterIndices[i] = closestCentroid;
       }
 
-      // Recalculate the centroids as the average of the points in the cluster
       Vector3[] newCentroids = new Vector3[k];
       int[] clusterSizes = new int[k];
       for (int i = 0; i < points.Length; i++) {
@@ -64,7 +56,6 @@ public class Segmentation : MonoBehaviour {
         newCentroids[i] /= clusterSizes[i];
       }
 
-      // Check for convergence
       bool converged = true;
       for (int i = 0; i < k; i++) {
         if (Vector3.Distance(centroids[i], newCentroids[i]) > epsilon) {
@@ -78,7 +69,6 @@ public class Segmentation : MonoBehaviour {
       centroids = newCentroids;
     }
 
-    // Get the indices of the points in the cluster with the highest average y-coordinate
     int[] headClusterIndices = new int[points.Length];
     int headClusterIndex = 0;
     float maxAverageY = float.MinValue;
